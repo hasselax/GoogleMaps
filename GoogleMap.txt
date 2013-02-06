@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCIXkHMHdG0wRdzCM392gtt6AIOlx6spiE&sensor=false">
+</script>
+
+<script>
+var geocoder;
+var map;
+function initialize()
+{
+geocoder = new google.maps.Geocoder();
+var latlng = new google.maps.LatLng(36.6215976, -76.2247366);
+var mapProp = {
+  center:latlng,
+  zoom:6,
+  mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+var map=new google.maps.Map(document.getElementById("googleMap")
+  ,mapProp);
+}
+function codeAddress() {
+var sAddress = document.getElementById("inputTextAddress").value;
+Geocoder.geocode( { 'address': sAddress}, function(results,status) {
+if (status == google.maps.GeocoderStatus.OK) {
+map.setCenter(results[0].geometry.location);
+var marker = new google.maps.Marker({
+map: map,
+position: results[0].geometry.location
+});
+} else {
+alert("Geocode was not successful for the following reason: " + status);
+}
+});
+}
+
+
+</script>
+</head>
+
+<body onload="initialize()">
+Address: <input type="text" id="inputTextAddress" style=" width:200px" title="Address to Geocode" />
+<input type="button" onclick="codeAddress()" id="inputButtonGeocode" style="width:150px" title="Click to Geocode" value="Click to Geocode" />
+
+<div id="googleMap" style="width:500px;height:380px;"></div>
+
+</body>
+</html>
